@@ -1,0 +1,72 @@
+function CM()
+    if game:GetService("Lighting").ClockTime >= 0 then
+        local Moon = game:GetService("Lighting").Sky.MoonTextureId
+        if Moon == "http://www.roblox.com/asset/?id=9709150401" then
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "Moon phases"; -- the title (ofc)
+                Text = "Phases [1]"; -- what the text says (ofc)
+                Icon = "rbxassetid://9709139597"; -- the image if u want. 
+                Duration = 5; -- how long the notification should in secounds
+                })
+            elseif Moon == "http://www.roblox.com/asset/?id=9709143733" then
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "Moon phases"; -- the title (ofc)
+                    Text = "Phases [2]"; -- what the text says (ofc)
+                    Icon = "rbxassetid://9709150086"; -- the image if u want. 
+                    Duration = 5; -- how long the notification should in secounds
+                    })
+                elseif Moon == "http://www.roblox.com/asset/?id=9709149052" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Moon phases"; -- the title (ofc)
+                        Text = "Phases [3]"; -- what the text says (ofc)
+                        Icon = "rbxassetid://9709149680"; -- the image if u want. 
+                        Duration = 5; -- how long the notification should in secounds
+                    })    
+                elseif Moon == "http://www.roblox.com/asset/?id=9709149431" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "FULLMOON PHASE"; -- the title (ofc)
+                        Text = "FULLMOON!!"; -- what the text says (ofc)
+                        Icon = "rbxassetid://9709149431"; -- the image if u want. 
+                        Duration = 5; -- how long the notification should in secounds               
+                    })    
+                elseif Moon == "http://www.roblox.com/asset/?id=9709149680" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Moon phases"; -- the title (ofc)
+                        Text = "Phases [-1]"; -- what the text says (ofc)
+                        Icon = "rbxassetid://9709149052"; -- the image if u want. 
+                        Duration = 5; -- how long the notification should in secounds               
+                    })  
+                elseif Moon == "http://www.roblox.com/asset/?id=9709150086" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Moon phases"; -- the title (ofc)
+                        Text = "Phases [-2]"; -- what the text says (ofc)
+                        Icon = "rbxassetid://9709143733"; -- the image if u want. 
+                        Duration = 5; -- how long the notification should in secounds               
+                    })    
+                elseif Moon == "http://www.roblox.com/asset/?id=9709139597" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Moon phases"; -- the title (ofc)
+                        Text = "Phases [-3]"; -- what the text says (ofc)
+                        Icon = "rbxassetid://9709150401"; -- the image if u want. 
+                        Duration = 5; -- how long the notification should in secounds               
+                    })   
+                elseif Moon == "http://www.roblox.com/asset/?id=9709135895" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Moon phases"; -- the title (ofc)
+                        Text = "Phases [-4]"; -- what the text says (ofc)
+                        Icon = "rbxassetid://9709135895"; -- the image if u want. 
+                        Duration = 5; -- how long the notification should in secounds               
+                    })   
+                    
+        end
+
+    elseif game:GetService("Lighting").ClockTime <= 18 then
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Day time"; -- the title (ofc)
+            Text = "Wait for night"; -- what the text says (ofc)
+            Icon = "rbxassetid://9709149052"; -- the image if u want. 
+            Duration = 5; -- how long the notification should in secounds
+        })    
+    end
+end
+CM()
