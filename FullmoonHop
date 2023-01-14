@@ -1,0 +1,179 @@
+function CM()
+    if game:GetService("Lighting").ClockTime >= 0 then
+        local Moon = game:GetService("Lighting").Sky.MoonTextureId
+        if Moon == "http://www.roblox.com/asset/?id=9709150401" then
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "Moon phases"; 
+                Text = "Phases [1]"; 
+                Icon = "rbxassetid://9709139597"; 
+                Duration = 5;
+                })
+            elseif Moon == "http://www.roblox.com/asset/?id=9709143733" then
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "Moon phases"; 
+                    Text = "Phases [2]"; 
+                    Icon = "rbxassetid://9709150086"; 
+                    Duration = 5;
+                    })
+                elseif Moon == "http://www.roblox.com/asset/?id=9709149052" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Moon phases"; 
+                        Text = "Phases [3]"; 
+                        Icon = "rbxassetid://9709149680"; 
+                        Duration = 5;
+                    })    
+                elseif Moon == "http://www.roblox.com/asset/?id=9709149431" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "FULLMOON PHASE"; 
+                        Text = "FULLMOON!!"; 
+                        Icon = "rbxassetid://9709149431"; 
+                        Duration = 5;               
+                    })    
+                elseif Moon == "http://www.roblox.com/asset/?id=9709149680" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Moon phases"; 
+                        Text = "Phases [-1]"; 
+                        Icon = "rbxassetid://9709149052"; 
+                        Duration = 5;               
+                    })  
+                elseif Moon == "http://www.roblox.com/asset/?id=9709150086" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Moon phases"; 
+                        Text = "Phases [-2]"; 
+                        Icon = "rbxassetid://9709143733"; 
+                        Duration = 5;               
+                    })    
+                elseif Moon == "http://www.roblox.com/asset/?id=9709139597" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Moon phases"; 
+                        Text = "Phases [-3]"; 
+                        Icon = "rbxassetid://9709150401"; 
+                        Duration = 5;               
+                    })   
+                elseif Moon == "http://www.roblox.com/asset/?id=9709135895" then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Moon phases"; 
+                        Text = "Phases [-4]"; 
+                        Icon = "rbxassetid://9709135895"; 
+                        Duration = 5;               
+                    })   
+                    
+        end
+
+    elseif game:GetService("Lighting").ClockTime <= 18 then
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Day time"; 
+            Text = "Wait for night"; 
+            Icon = "rbxassetid://9709149052"; 
+            Duration = 5;
+        })    
+    end
+end
+
+function Hop()
+    local PlaceID = game.PlaceId
+	local AllIDs = {}
+	local foundAnything = ""
+	local actualHour = os.date("!*t").hour
+	local Deleted = false
+	local File =
+		pcall(
+			function()
+				AllIDs = game:GetService("HttpService"):JSONDecode(readfile("NotSameServers.json"))
+			end
+		)
+	if not File then
+		table.insert(AllIDs, actualHour)
+		writefile("NotSameServers.json", game:GetService("HttpService"):JSONEncode(AllIDs))
+	end
+	function TPReturner()
+		local Site
+		if foundAnything == "" then
+			Site =
+				game.HttpService:JSONDecode(
+					game:HttpGet(
+						"https://games.roblox.com/v1/games/" .. PlaceID .. "/servers/Public?sortOrder=Asc&limit=100"
+					)
+				)
+		else
+			Site =
+				game.HttpService:JSONDecode(
+					game:HttpGet(
+						"https://games.roblox.com/v1/games/" ..
+						PlaceID .. "/servers/Public?sortOrder=Asc&limit=100&cursor=" .. foundAnything
+					)
+				)
+		end
+		local ID = ""
+		if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+			foundAnything = Site.nextPageCursor
+		end
+		local num = 0
+		for i, v in pairs(Site.data) do
+			local Possible = true
+			ID = tostring(v.id)
+			if tonumber(v.maxPlayers) > tonumber(v.playing) then
+				for _, Existing in pairs(AllIDs) do
+					if num ~= 0 then
+						if ID == tostring(Existing) then
+							Possible = false
+						end
+					else
+						if tonumber(actualHour) ~= tonumber(Existing) then
+							local delFile =
+								pcall(
+									function()
+										delfile("NotSameServers.json")
+										AllIDs = {}
+										table.insert(AllIDs, actualHour)
+									end
+								)
+						end
+					end
+					num = num + 1
+				end
+				if Possible == true then
+					table.insert(AllIDs, ID)
+					wait()
+					pcall(
+						function()
+							writefile("NotSameServers.json", game:GetService("HttpService"):JSONEncode(AllIDs))
+							wait()
+							game:GetService("TeleportService"):TeleportToPlaceInstance(
+							PlaceID,
+							ID,
+							game.Players.LocalPlayer
+							)
+						end
+					)
+					wait(2)
+				end
+			end
+		end
+	end
+
+	function Teleport()
+		while wait() do
+			pcall(
+				function()
+					TPReturner()
+					if foundAnything ~= "" then
+						TPReturner()
+					end
+				end
+			)
+		end
+	end
+
+	Teleport()
+end
+local Moon1 = game:GetService("Lighting").Sky.MoonTextureId
+local Time = game:GetService("Lighting").ClockTime
+if Moon1 == "http://www.roblox.com/asset/?id=9709149431" or Moon1 == "http://www.roblox.com/asset/?id=9709149052" then
+CM()
+elseif Moon1 == "http://www.roblox.com/asset/?id=9709150401" or Moon1 == "http://www.roblox.com/asset/?id=9709143733" or Moon1 == "http://www.roblox.com/asset/?id=9709149680" or Moon1 == "http://www.roblox.com/asset/?id=9709150086" or Moon1 == "http://www.roblox.com/asset/?id=9709139597" or Moon1 == "http://www.roblox.com/asset/?id=9709135895" then
+Hop()
+end
+if Moon1 == "http://www.roblox.com/asset/?id=9709149431" and Time <= 18 then
+Hop()
+end
